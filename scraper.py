@@ -38,9 +38,10 @@ def fetch_rss_updates():
                 for item in root.findall('.//item'):
                     title = item.find('title').text if item.find('title') is not None else ''
                     link = item.find('link').text if item.find('link') is not None else '#'
+                    link = link.strip() # Rensa bort eventuella mellanslag
                     pub_date = item.find('pubDate').text if item.find('pubDate') is not None else ''
 
-                    # Bygg om relativa länkar till fullständiga adresser för att undvika 500-fel
+                    # FIX: Om länken är relativ (börjar med '/'), bygg ut den till en fullständig URL
                     if link.startswith('/'):
                         if "blizzard.com" in source["url"]:
                             link = "https://news.blizzard.com" + link
@@ -49,7 +50,7 @@ def fetch_rss_updates():
                         elif "icy-veins.com" in source["url"]:
                             link = "https://www.icy-veins.com" + link
 
-                    # Om länken inte är giltig HTTP, sök säkra reservlänkar
+                    # Om länken ändå saknar 'http', sätt en säker reservlänk till Blizzard
                     if not link.startswith('http'):
                         link = "https://news.blizzard.com/en-us/wow"
 
@@ -65,7 +66,7 @@ def fetch_rss_updates():
                             "summary": f"Verifierad nyhet från {source['name']}."
                         })
                         
-                        # Max 8 relevanta artiklar totalt
+                        # Max 5 relevanta artiklar per källa
                         if len(articles) >= 8:
                             break
         except Exception as e:
