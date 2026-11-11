@@ -3,13 +3,12 @@ import json
 import xml.etree.ElementTree as ET
 from datetime import datetime
 
-# Ändrad till Blizzards officiella Forever-flöde eller Wowheads Forever-sektion
 RSS_URL = "https://worldofwarcraft.blizzard.com/en-gb/news/rss"
 OUTPUT_FILE = "warlock_patches.json"
 
 def fetch_and_filter_warlock_news():
     headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) WoWForeverScanner/1.0'
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) WoWForeverWarlockBot/2.0'
     }
     
     try:
@@ -22,9 +21,9 @@ def fetch_and_filter_warlock_news():
     root = ET.fromstring(response.content)
     channel = root.find('channel')
     
-    # Nyckelord anpassade för Warlock och WoW Forever-innehåll
-    warlock_keywords = ['warlock', 'forever', 'class', 'hotfix', 'patch', 'voidwalker', 'succubus', 'soul siphon', 'felsteed']
+    warlock_keywords = ['warlock', 'forever', 'class change', 'hotfix', 'patch', 'voidwalker', 'succubus', 'soul siphon', 'felsteed', 'buff', 'nerf']
     filtered_articles = []
+    guide_status = "Optimerad för aktuell Patch"
 
     if channel is not None:
         for item in channel.findall('item'):
@@ -35,17 +34,21 @@ def fetch_and_filter_warlock_news():
 
             content_to_check = (title + " " + description).lower()
             
-            # Fångar upp nyheter som rör Warlock eller generella Forever-hotfixes
             if any(keyword in content_to_check for keyword in warlock_keywords):
+                # Om en större patch nämns, flagga guiden för översyn
+                if "patch" in content_to_check or "hotfix" in content_to_check:
+                    guide_status = "⚠️ Ny patch detekterad – Se över ändringar nedan!"
+
                 filtered_articles.append({
                     "title": title,
                     "link": link,
                     "date": pub_date,
-                    "summary": description[:200] + "..." if len(description) > 200 else description
+                    "summary": description[:250] + "..." if len(description) > 250 else description
                 })
 
     output_data = {
         "last_updated": datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC"),
+        "guide_status": guide_status,
         "total_updates": len(filtered_articles),
         "articles": filtered_articles
     }
@@ -53,7 +56,7 @@ def fetch_and_filter_warlock_news():
     with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
         json.dump(output_data, f, ensure_ascii=False, indent=2)
     
-    print(f"Skanning klar för WoW Forever! Hittade {len(filtered_articles)} relevanta uppdateringar.")
+    print(f"Skanning klar! Hittade {len(filtered_articles)} relevanta Forever-ändringar.")
 
 if __name__ == "__main__":
     fetch_and_filter_warlock_news()
