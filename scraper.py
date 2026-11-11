@@ -40,6 +40,19 @@ def fetch_rss_updates():
                     link = item.find('link').text if item.find('link') is not None else '#'
                     pub_date = item.find('pubDate').text if item.find('pubDate') is not None else ''
 
+                    # Bygg om relativa länkar till fullständiga adresser för att undvika 500-fel
+                    if link.startswith('/'):
+                        if "blizzard.com" in source["url"]:
+                            link = "https://news.blizzard.com" + link
+                        elif "wowhead.com" in source["url"]:
+                            link = "https://www.wowhead.com" + link
+                        elif "icy-veins.com" in source["url"]:
+                            link = "https://www.icy-veins.com" + link
+
+                    # Om länken inte är giltig HTTP, sök säkra reservlänkar
+                    if not link.startswith('http'):
+                        link = "https://news.blizzard.com/en-us/wow"
+
                     # Filtrera så att vi främst sparar relevanta nyheter för Warlock/Patches
                     title_lower = title.lower()
                     if any(kw in title_lower for kw in source["keywords"]) or source["name"] == "Blizzard WoW News":
@@ -69,23 +82,4 @@ def main():
         fetched_articles = [
             {
                 "title": "WoW Official Patch & Class Status",
-                "link": "https://news.blizzard.com/en-us/wow",
-                "date": datetime.now().strftime("%Y-%m-%d"),
-                "summary": "Inga nya specifika Warlock-ändringar i senaste timmens skanning. Guiden följer aktuell live-balansering."
-            }
-        ]
-
-    output_data = {
-        "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M"),
-        "guide_status": "Aktiv & Synkad med Blizzard/Wowhead",
-        "total_updates": len(fetched_articles),
-        "articles": fetched_articles
-    }
-
-    with open("warlock_patches.json", "w", encoding="utf-8") as f:
-        json.dump(output_data, f, ensure_ascii=False, indent=2)
-
-    print("warlock_patches.json uppdaterad framgångsrikt!")
-
-if __name__ == "__main__":
-    main()
+                "link": "
