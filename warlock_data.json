@@ -1,0 +1,121 @@
+{
+  "last_updated": "2026-11-11",
+  "version": "1.60.1.70840",
+  "guide_status": "Aktiv",
+  "phases": [
+    {
+      "maxLvl": 10,
+      "title": "Forever leveling 1–10: DoTs och wand",
+      "desc": "Corruption kommer vid 4, Life Tap vid 6 och Bane of Agony vid 8. Bane är separat från Curse. Stoppa och stå still en halv sekund innan du skjuter wand."
+    },
+    {
+      "maxLvl": 19,
+      "title": "Forever leveling 10–19: Voidwalker",
+      "desc": "Hämta Voidwalker vid 10 och låt den bygga threat före dina DoTs. Med Improved Corruption 5/5 blir Corruption instant vid 14. Drain Life lärs också vid 14."
+    },
+    {
+      "maxLvl": 29,
+      "title": "Forever leveling 20–29: Pandemic",
+      "desc": "Pandemic blir tillgänglig genom talangpoäng från 20. Bane of Agony kan ligga samtidigt som en Curse; Curse of the Elements lärs vid 20 och är användbar på längre fighter."
+    },
+    {
+      "maxLvl": 39,
+      "title": "Forever leveling 30–39: Affliction och demon-utility",
+      "desc": "Siphon Life blir tillgänglig vid 30 poäng/level 30. Felhunter summoneras vid 30, Devour Magic finns då och Spell Lock kommer vid 36. Spellstone är en vapen-imbue från 36."
+    },
+    {
+      "maxLvl": 49,
+      "title": "Forever leveling 40–49: Wrack och Felsteed",
+      "desc": "Wrack låses upp med 31 Affliction-poäng vid level 40 och är en 6 sekunders channel, inte en instant filler. Felsteed är level-40-mounten. Death Coil lärs vid 42."
+    },
+    {
+      "maxLvl": 60,
+      "title": "Forever leveling 50–60: senare milstolpar",
+      "desc": "Inferno kommer vid 50. Bane of Doom, Portal of Summoning och Dreadsteed lärs vid 60. Högre level-builds bör verifieras i spelet; en del publicerad teori är fortfarande oprövad."
+    }
+  ],
+  "spells": [
+    { "lvl": 1, "name": "Immolate / Shadow Bolt / Demon Skin", "icon": "fa-fire", "desc": "Startspells. Immolate finns redan vid level 1 i Forever." },
+    { "lvl": 4, "name": "Corruption / Curse of Weakness", "icon": "fa-skull", "desc": "Corruption är en DoT; Weakness är en Curse." },
+    { "lvl": 6, "name": "Life Tap", "icon": "fa-heart-circle-bolt", "desc": "Ger mana motsvarande basvärde plus Spirit; Spirit-skalningen gäller från första ranken." },
+    { "lvl": 8, "name": "Bane of Agony / Fear", "icon": "fa-fire", "desc": "Agony är en Bane, inte en Curse, och kan därför kombineras med en Curse." },
+    { "lvl": 10, "name": "Voidwalker Quest / Drain Soul / Healthstone", "icon": "fa-ghost", "desc": "Drain Soul ger alltid en shard om målet dör under channelen; shard-chansen från skadeticks sänktes i senaste notiserna." },
+    { "lvl": 12, "name": "Health Funnel", "icon": "fa-notes-medical", "desc": "Läker din demon." },
+    { "lvl": 14, "name": "Drain Life / Curse of Recklessness", "icon": "fa-hand-holding-hand", "desc": "Drain Life är en 5 sekunders channel. Recklessness hindrar målet från att fly och motverkar Fear." },
+    { "lvl": 16, "name": "Unending Breath", "icon": "fa-water", "desc": "Forever ranknivå." },
+    { "lvl": 18, "name": "Soulstone / Searing Pain / Gravestone Scepter", "icon": "fa-gem", "desc": "Gravestone Scepter från Blackfathom Villainy är en relevant wand från cirka level 18." },
+    { "lvl": 20, "name": "Curse of the Elements / Demon Armor / Succubus / Incubus", "icon": "fa-shield-cat", "desc": "Curse of the Elements påverkar alla magiskolor. Sayaad-pet-valen finns från 20." },
+    { "lvl": 20, "name": "Ritual of Summoning", "icon": "fa-users", "desc": "Kräver caster plus två gruppmedlemmar; mötestenar summon inte i Forever." },
+    { "lvl": 22, "name": "Drain Life Rank 2 / Healthstone Rank 2", "icon": "fa-heart-pulse", "desc": "Forever rankmilstolpe." },
+    { "lvl": 24, "name": "Drain Mana / Sense Demons", "icon": "fa-eye", "desc": "Forever rankmilstolpe." },
+    { "lvl": 26, "name": "Curse of Tongues", "icon": "fa-comment-slash", "desc": "Detta är en Curse, inte en Bane." },
+    { "lvl": 28, "name": "Banish / Firestone", "icon": "fa-ban", "desc": "Firestone är en vapen-imbue, inte en off-hand." },
+    { "lvl": 30, "name": "Siphon Life / Felhunter / Hellfire", "icon": "fa-droplet", "desc": "Siphon Life kräver 21 Affliction-poäng. Felhunter får Devour Magic vid 30." },
+    { "lvl": 32, "name": "Shadow Ward / Fear Rank 2", "icon": "fa-shield-halved", "desc": "Forever rankmilstolpe." },
+    { "lvl": 36, "name": "Spellstone / Felhunter Spell Lock", "icon": "fa-wand-sparkles", "desc": "Spellstone är en vapen-imbue; Felhunter-interrupten kommer vid 36, inte 30." },
+    { "lvl": 40, "name": "Wrack / Howl of Terror / Felsteed", "icon": "fa-horse", "desc": "Wrack är en 6 sekunders channel med 31 Affliction-poäng. Felsteed är mounten vid level 40." },
+    { "lvl": 42, "name": "Death Coil", "icon": "fa-skull-crossbones", "desc": "3 sekunders horror som även läker dig för skadan." },
+    { "lvl": 48, "name": "Soul Fire", "icon": "fa-fire-flame-curved", "desc": "Kostar en Soul Shard och har lång cast." },
+    { "lvl": 50, "name": "Inferno", "icon": "fa-volcano", "desc": "Kräver Infernal Stone enligt klientdata." },
+    { "lvl": 60, "name": "Bane of Doom / Portal of Summoning / Dreadsteed", "icon": "fa-horse-head", "desc": "Forever-milstolpar; Bane of Doom delar Bane-plats med Agony." }
+  ],
+  "wands": [
+    { "lvl": 13, "name": "Fang of Magmatus / Dwarven Tome", "dps": "Jämför i spelet", "source": "Forever-dungeon/questspår; verifiera faction och tillgänglighet" },
+    { "lvl": 13, "name": "Gnarled Necromancer's Staff / Coldspire Staff", "dps": "Jämför i spelet", "source": "Ruins of Lordaeron; kontrollera drop/quest i Forever" },
+    { "lvl": 17, "name": "Sizzle Stick / Cookie's Stirring Rod", "dps": "Jämför i spelet", "source": "Wailing Caverns / Deadmines quest" },
+    { "lvl": 18, "name": "Gravestone Scepter", "dps": "Jämför i spelet", "source": "Blackfathom Villainy quest; båda fraktioner" },
+    { "lvl": 20, "name": "Orb or Staff of Soran'ruk", "dps": "Jämför i spelet", "source": "Warlock class quest; Forever-version" }
+  ],
+  "quests": [
+    { "lvl": 10, "title": "Voidwalker class quest", "zone": "Undercity / Orgrimmar", "reward": "Summon Voidwalker", "desc": "Horde-kedjan slutar hos Carendin Halgar i Undercity; följ questloggen från level 10." },
+    { "lvl": 20, "title": "Succubus / Incubus", "zone": "Faction quests", "reward": "Sayaad-pet + Small Soul Pouch", "desc": "Classic Succubus-kedjan finns kvar; Forever har även nya Incubus-kedjor. Exakt kedja beror på fraktion." },
+    { "lvl": 20, "title": "Orb of Soran'ruk", "zone": "Warlock class quest", "reward": "Orb or Staff of Soran'ruk", "desc": "Forever questkedja med vapenval; XP-belöningen ändrades från Classic." },
+    { "lvl": 30, "title": "Felhunter class quest", "zone": "Ratchet", "reward": "Summon Felhunter", "desc": "Classic-kedjan finns i questdata, men om den fortfarande krävs bör verifieras i spelet." },
+    { "lvl": 40, "title": "Felsteed", "zone": "Strahad Farsan", "reward": "Summon Felsteed", "desc": "Level-40 mount. Följ aktuell trainer/quest i spelet; kostnads- och questdetaljer kan skilja sig." },
+    { "lvl": 60, "title": "Dreadsteed of Xoroth", "zone": "Class quest chain", "reward": "Summon Dreadsteed", "desc": "Level-60 questkedja. Förväxla inte med en Soul Harvester-vapenquest." }
+  ],
+  "zone_routes": [
+    { "range": "L1 - L10", "title": "Deathknell & Tirisfal Glades", "desc": "Gör startkedjan och ta Imp-questen. Voidwalker-questen blir aktuell vid 10." },
+    { "range": "L10 - L19", "title": "Silverpine Forest / The Barrens", "desc": "Hämta Voidwalker. Barrens är Horde 10–25; wand och DoTs hjälper mot downtime." },
+    { "range": "L20 - L29", "title": "Hillsbrad Foothills / Ashenvale", "desc": "Pandemic och nya Forever-dungeon/questalternativ ändrar Classic-rutten. Följ levelspann och questlogg." },
+    { "range": "L30 - L35", "title": "Arathi / Stranglethorn Vale", "desc": "Siphon Life vid 30-poängsmilstolpen. Felhunter är utility; Spell Lock först vid 36." },
+    { "range": "L36 - L44", "title": "Riverglades (contested) / Dustwallow / Badlands", "desc": "Riverglades är en ny contested-zon med klientspann 36–44. Quests och fiendenivåer kan skilja sig; kontrollera i spelet." },
+    { "range": "L40 - L50", "title": "Tanaris / Hinterlands / Feralas", "desc": "Felsteed vid 40; Wrack är en channel. Välj mellan zoner utifrån quests och faktisk XP." },
+    { "range": "L50 - L60", "title": "Felwood / Plaguelands / Winterspring / Silithus", "desc": "Inferno vid 50; Bane of Doom och Portal of Summoning vid 60. Ingen bekräftad Soul Harvester-scythe-quest." }
+  ],
+  "macros": [
+    { "title": "Pet Attack + Corruption", "badge": "Pull", "desc": "Skickar in pet och kastar Corruption.", "code": "#showtooltip Corruption\n/petattack\n/cast Corruption" },
+    { "title": "Mouseover Bane of Agony", "badge": "Multi-DoT", "desc": "Kastar Agony på muspekarens mål.", "code": "#showtooltip Bane of Agony\n/cast [@mouseover,harm,nodead][] Bane of Agony" },
+    { "title": "Mouseover Curse of Weakness", "badge": "Utility", "desc": "Lägger Curse of Weakness på muspekarens fiende, annars på ditt mål.", "code": "#showtooltip Curse of Weakness\n/cast [@mouseover,harm,nodead][] Curse of Weakness" },
+    { "title": "Drain Soul: shard finisher", "badge": "Soul Shards", "desc": "Använd aktuell rank och låt channelen avslutas. Ett icke-trivialt mål som dör under channelen ger alltid en shard; skadeticks ger shard mer sällan efter senaste ändringen.", "code": "#showtooltip Drain Soul\n/cast Drain Soul" },
+    { "title": "Health Funnel: Pet", "badge": "Pet Care", "desc": "Läker din aktiva demon med Health Funnel.", "code": "#showtooltip Health Funnel\n/cast [@pet,exists,nodead] Health Funnel" },
+    { "title": "Use Healthstone", "badge": "Emergency", "desc": "Använder din Healthstone när den finns i väskan.", "code": "#showtooltip Healthstone\n/use Healthstone" },
+    { "title": "Pet Follow", "badge": "Pet Control", "desc": "Kallar tillbaka din demon så att den slutar attackera.", "code": "#showtooltip\n/petfollow" }
+  ],
+  "talents": {
+    "affliction": [
+      { "id": "imp_corruption", "name": "Improved Corruption", "max": 5, "reqLvl": 10, "reqPoints": 0, "desc": "Minskar cast time för Corruption; 5/5 gör den instant." },
+      { "id": "suppression", "name": "Suppression", "max": 5, "reqLvl": 10, "reqPoints": 0, "desc": "Ger Affliction-spells upp till 5% hit och minskar threat." },
+      { "id": "imp_life_tap", "name": "Improved Life Tap", "max": 2, "reqLvl": 10, "reqPoints": 0, "desc": "Forever-talang. Exakt värde följer aktuell tooltip." },
+      { "id": "grim_reach", "name": "Grim Reach", "max": 2, "reqLvl": 15, "reqPoints": 5, "desc": "Ökar räckvidden för Affliction-spells." },
+      { "id": "soul_harvest", "name": "Soul Harvest", "max": 2, "reqLvl": 15, "reqPoints": 5, "desc": "Förbättrar manaåterhämtning när Drain Soul är aktivt på ett döende mål." },
+      { "id": "pandemic", "name": "Pandemic", "max": 3, "reqLvl": 20, "reqPoints": 10, "desc": "Förstärker critical strike-bonusen för DoTs och drains; DoTs kan critta i Forever." },
+      { "id": "improved_drains", "name": "Improved Drains", "max": 3, "reqLvl": 20, "reqPoints": 10, "desc": "Förbättrar drain-förmågor. Nov 3 ändrades Drain Mana-effekten; talangen ökar inte längre Wrack-skadan." },
+      { "id": "improved_bane_agony", "name": "Improved Bane of Agony", "max": 2, "reqLvl": 20, "reqPoints": 10, "desc": "Forever-talang som förbättrar Bane of Agony." },
+      { "id": "amplify_curse", "name": "Amplify Curse", "max": 1, "reqLvl": 20, "reqPoints": 10, "desc": "Förstärker nästa Curse of Weakness eller Bane of Agony; krävs för Curse of Exhaustion." },
+      { "id": "nightfall", "name": "Nightfall", "max": 2, "reqLvl": 25, "reqPoints": 15, "desc": "Corruption och drains kan ge en instant Shadow Bolt." },
+      { "id": "malevolence", "name": "Malevolence", "max": 5, "reqLvl": 25, "reqPoints": 15, "desc": "Ökar Shadow critical strike chance." },
+      { "id": "curse_exhaustion", "name": "Curse of Exhaustion", "max": 1, "reqLvl": 25, "reqPoints": 15, "prereqId": "amplify_curse", "prereqRank": 1, "desc": "Affliction-guldtalang; kräver Amplify Curse." },
+      { "id": "siphon_life", "name": "Siphon Life", "max": 1, "reqLvl": 30, "reqPoints": 20, "desc": "21-poängsmilstolpe; DoT som läker dig." },
+      { "id": "soul_siphon", "name": "Soul Siphon", "max": 3, "reqLvl": 30, "reqPoints": 20, "desc": "Ökar Drain Life/Drain Soul-värde per Affliction-effekt på målet." },
+      { "id": "fel_concentration", "name": "Fel Concentration", "max": 3, "reqLvl": 30, "reqPoints": 20, "desc": "Forever har 3 ranker, inte 5; minskar cast interruption på drains." },
+      { "id": "shadow_mastery", "name": "Shadow Mastery", "max": 5, "reqLvl": 35, "reqPoints": 25, "desc": "Ökar Shadow-skada med 2% per poäng, upp till 10%." },
+      { "id": "wrack", "name": "Wrack", "max": 1, "reqLvl": 40, "reqPoints": 30, "prereqId": "siphon_life", "prereqRank": 1, "desc": "31-poängsmilstolpe. 6 sekunders channel; ökar andra Shadow-DoTs på målet medan den pågår." }
+    ],
+    "demonology": [
+      { "id": "demonic_embrace", "name": "Demonic Embrace", "max": 5, "reqLvl": 10, "reqPoints": 0, "desc": "Ökar Stamina; minskar Spirit." },
+      { "id": "improved_voidwalker", "name": "Improved Voidwalker", "max": 3, "reqLvl": 15, "reqPoints": 5, "desc": "Förbättrar Voidwalker." },
+      { "id": "demonic_energies", "name": "Demonic Energies", "max": 2, "reqLvl": 15, "reqPoints": 5, "desc": "Hjälper till att hålla demonen vid liv genom Warlockens spell damage." }
+    ]
+  }
+}
