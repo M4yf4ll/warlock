@@ -1,0 +1,36 @@
+name: WoW Forever Warlock Auto Scanner
+
+on:
+  schedule:
+    # Körs automatiskt varje natt kl 03:00 UTC
+    - cron: '0 3 * * *'
+  # Tillåter dig även att starta skanningen manuellt via GitHubs gränssnitt
+  workflow_dispatch:
+
+jobs:
+  scan-and-update:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Hämta kodfilerna
+      uses: actions/checkout@v4
+
+    - name: Konfigurera Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'
+
+    - name: Installera beroenden
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests
+
+    - name: Kör Skannern
+      run: python scraper.py
+
+    - name: Spara ändringar till GitHub Repository
+      run: |
+        git config --global user.name 'Warlock-Bot'
+        git config --global user.email 'bot@github.com'
+        git add warlock_patches.json
+        git diff-index --quiet HEAD || (git commit -m "Auto-update: Nya Warlock patch-noteringar hittade" && git push)
