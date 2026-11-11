@@ -1,13 +1,13 @@
 {
-  "last_updated": "2026-11-11 13:24",
-  "guide_status": "Aktiv & Synkad",
+  "last_updated": "2026-11-11 13:39",
+  "guide_status": "Aktiv & Synkad med Blizzard/Wowhead",
   "total_updates": 1,
   "articles": [
     {
-      "title": "WoW Forever Hotfixes: Warlock & Pet adjustments",
-      "link": "https://worldofwarcraft.blizzard.com/news",
+      "title": "WoW Official Patch & Class Status",
+      "link": "https://news.blizzard.com/en-us/wow",
       "date": "2026-11-11",
-      "summary": "Voidwalker bas-hälsa höjd, Soul Siphon/Wrack interaktioner justerade. Se officiella patchnotiser."
+      "summary": "Inga nya specifika Warlock-ändringar i senaste timmens skanning. Guiden följer aktuell live-balansering."
     }
   ]
 }
