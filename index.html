@@ -191,6 +191,9 @@
             <button data-tab="tab-macros" class="nav-tab flex items-center gap-2 px-4 py-3 text-xs sm:text-sm font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 whitespace-nowrap transition">
                 <i class="fa-solid fa-terminal"></i> Makron & Tips
             </button>
+            <button data-tab="tab-patches" class="nav-tab flex items-center gap-2 px-4 py-3 text-xs sm:text-sm font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 whitespace-nowrap transition">
+                <i class="fa-solid fa-robot text-fel"></i> Live Patch-skanner 🤖
+            </button>
         </div>
     </nav>
 
@@ -611,6 +614,30 @@
             </div>
         </section>
 
+        <!-- TAB 7: LIVE PATCHES (GITHUB ACTIONS INTEGRATION) -->
+        <section id="tab-patches" class="tab-content hidden space-y-6">
+            <div class="bg-cardbg border border-borderbg rounded-xl p-5 shadow-lg">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-borderbg pb-4 mb-4">
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-100 gold-header flex items-center gap-2">
+                            <i class="fa-solid fa-robot text-fel"></i> Automatiskt Nyhets- & Patch-flöde
+                        </h2>
+                        <p class="text-xs text-slate-400 mt-1">
+                            Denna flik synkas automatiskt via GitHub Actions-skannern (<code class="text-purple-400">scraper.py</code>).
+                        </p>
+                    </div>
+                    <div class="bg-slate-900/90 border border-borderbg px-3 py-1.5 rounded-lg text-xs flex items-center gap-3">
+                        <div><strong class="text-amber-400">Status:</strong> <span id="sync-guide-status" class="text-fel">Synkar...</span></div>
+                        <div><strong class="text-amber-400">Uppdaterad:</strong> <span id="sync-last-updated" class="text-slate-300">-</span></div>
+                    </div>
+                </div>
+
+                <div id="live-patch-list" class="space-y-3">
+                    <p class="text-xs text-slate-400">Laddar patch-noteringar från <code class="text-fel">warlock_patches.json</code>...</p>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <!-- Meta Scanner Interactive Modal -->
@@ -818,6 +845,48 @@
             setupNetworkStatus();
             setupProfessionTracker();
             renderAll();
+            fetchGitHubPatches();
+        }
+
+        async function fetchGitHubPatches() {
+            const listEl = document.getElementById('live-patch-list');
+            const statusEl = document.getElementById('sync-guide-status');
+            const updatedEl = document.getElementById('sync-last-updated');
+
+            try {
+                const res = await fetch('./warlock_patches.json?v=' + new Date().getTime());
+                if (!res.ok) throw new Error("JSON hittades inte ännu.");
+                
+                const data = await res.json();
+                if (statusEl) statusEl.innerText = data.guide_status || "Aktiv";
+                if (updatedEl) updatedEl.innerText = data.last_updated || "Nyligen";
+
+                if (!data.articles || data.articles.length === 0) {
+                    listEl.innerHTML = '<p class="text-xs text-slate-400">Inga nya Warlock/Forever patchnotiser hittades i den senaste skanningen.</p>';
+                    return;
+                }
+
+                listEl.innerHTML = data.articles.map(art => `
+                    <div class="p-3.5 bg-slate-900/90 rounded-lg border border-purple-900/40">
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="text-[10px] font-mono bg-purple-950 text-purple-300 px-2 py-0.5 rounded">${art.date}</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-slate-100 hover:text-fel transition">
+                            <a href="${art.link}" target="_blank" rel="noopener">${art.title}</a>
+                        </h4>
+                        <p class="text-xs text-slate-400 mt-1">${art.summary}</p>
+                    </div>
+                `).join('');
+
+            } catch (err) {
+                if (statusEl) statusEl.innerText = "Väntar på skanning";
+                listEl.innerHTML = `
+                    <div class="p-3.5 bg-slate-900/90 rounded-lg border border-slate-800 text-xs">
+                        <strong class="text-amber-400 block mb-1">Skannern har inte genererat warlock_patches.json ännu</strong>
+                        <p class="text-slate-400">Gå till GitHub Actions i ditt repository och tryck på <em>Run workflow</em> för att utföra din första automatiska skanning.</p>
+                    </div>
+                `;
+            }
         }
 
         function setupNetworkStatus() {
@@ -1181,16 +1250,12 @@
             if (content) {
                 content.innerHTML = `
                     <div class="p-3 bg-slate-900 rounded-lg border border-amber-500/50">
-                        <div class="font-bold text-amber-300 text-sm mb-1"><i class="fa-solid fa-circle-info"></i> Ingen live-meta är ansluten</div>
-                        <p class="text-slate-300">Den här sidan hämtar inte builds, rankingar eller patchdata från WoW Forever. Level ${lvl} visar bara vilken nivå som är vald i den statiska leveling-guiden.</p>
+                        <div class="font-bold text-amber-300 text-sm mb-1"><i class="fa-solid fa-circle-info"></i> Skanneranslutning</div>
+                        <p class="text-slate-300">Sidan laddar patch-noteringar automatiskt via <code>warlock_patches.json</code> under fliken Live Patch-skanner. Vald level i guiden: ${lvl}.</p>
                     </div>
                     <div class="p-3 bg-slate-900/90 rounded border border-slate-700">
                         <div class="font-bold text-slate-200">Guidens data</div>
-                        <p class="text-slate-400 mt-1">Spells, talanger, rotationer och utrustningsförslag är lokalt hårdkodade och verifieras inte mot aktuell serverversion. Ingen automatisk uppdatering körs.</p>
-                    </div>
-                    <div class="p-3 bg-slate-900/90 rounded border border-slate-700">
-                        <div class="font-bold text-slate-200">Integritet</div>
-                        <p class="text-slate-400 mt-1">Guidens resurser laddas från filer bredvid HTML-filen. Sidan gör inga automatiska anslutningar till externa tjänster och skickar inte karaktärsdata.</p>
+                        <p class="text-slate-400 mt-1">Spells, talanger, rotationer och utrustningsförslag laddas snabbt lokalt i din webbläsare.</p>
                     </div>
                 `;
             }
