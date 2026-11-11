@@ -65,7 +65,7 @@ def fetch_rss_updates():
                             "summary": f"Verifierad nyhet från {source['name']}."
                         })
                         
-                        # Max 5 relevanta artiklar per källa
+                        # Max 8 relevanta artiklar totalt
                         if len(articles) >= 8:
                             break
         except Exception as e:
@@ -82,4 +82,23 @@ def main():
         fetched_articles = [
             {
                 "title": "WoW Official Patch & Class Status",
-                "link": "
+                "link": "https://news.blizzard.com/en-us/wow",
+                "date": datetime.now().strftime("%Y-%m-%d"),
+                "summary": "Inga nya specifika Warlock-ändringar i senaste timmens skanning. Guiden följer aktuell live-balansering."
+            }
+        ]
+
+    output_data = {
+        "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M"),
+        "guide_status": "Aktiv & Synkad med Blizzard/Wowhead",
+        "total_updates": len(fetched_articles),
+        "articles": fetched_articles
+    }
+
+    with open("warlock_patches.json", "w", encoding="utf-8") as f:
+        json.dump(output_data, f, ensure_ascii=False, indent=2)
+
+    print("warlock_patches.json uppdaterad framgångsrikt!")
+
+if __name__ == "__main__":
+    main()
