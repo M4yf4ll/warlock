@@ -1269,7 +1269,11 @@
             if (modal) modal.classList.add('hidden');
         }
 
-        window.onload = initApp;
+        // Kör skanningen direkt när sidan laddas, och uppdatera sedan automatiskt var 5:e minut
+        window.onload = function() {
+            initApp();
+            setInterval(fetchGitHubPatches, 300000); // 300 000 ms = 5 minuter
+        };
     </script>
 </body>
 </html>
