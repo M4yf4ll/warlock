@@ -1,62 +1,148 @@
-import requests
-import json
-import xml.etree.ElementTree as ET
-from datetime import datetime
-
-RSS_URL = "https://worldofwarcraft.blizzard.com/en-gb/news/rss"
-OUTPUT_FILE = "warlock_patches.json"
-
-def fetch_and_filter_warlock_news():
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) WoWForeverWarlockBot/2.0'
-    }
-    
-    try:
-        response = requests.get(RSS_URL, headers=headers, timeout=10)
-        response.raise_for_status()
-    except Exception as e:
-        print(f"Fel vid hämtning av RSS: {e}")
-        return
-
-    root = ET.fromstring(response.content)
-    channel = root.find('channel')
-    
-    warlock_keywords = ['warlock', 'forever', 'class change', 'hotfix', 'patch', 'voidwalker', 'succubus', 'soul siphon', 'felsteed', 'buff', 'nerf']
-    filtered_articles = []
-    guide_status = "Optimerad för aktuell Patch"
-
-    if channel is not None:
-        for item in channel.findall('item'):
-            title = item.find('title').text if item.find('title') is not None else ""
-            link = item.find('link').text if item.find('link') is not None else ""
-            pub_date = item.find('pubDate').text if item.find('pubDate') is not None else ""
-            description = item.find('description').text if item.find('description') is not None else ""
-
-            content_to_check = (title + " " + description).lower()
-            
-            if any(keyword in content_to_check for keyword in warlock_keywords):
-                # Om en större patch nämns, flagga guiden för översyn
-                if "patch" in content_to_check or "hotfix" in content_to_check:
-                    guide_status = "⚠️ Ny patch detekterad – Se över ändringar nedan!"
-
-                filtered_articles.append({
-                    "title": title,
-                    "link": link,
-                    "date": pub_date,
-                    "summary": description[:250] + "..." if len(description) > 250 else description
-                })
-
-    output_data = {
-        "last_updated": datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC"),
-        "guide_status": guide_status,
-        "total_updates": len(filtered_articles),
-        "articles": filtered_articles
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WoW Forever - Ultimate Warlock Meta Guide</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #07050d;
+      --bg-card: #120e21;
+      --bg-card-hover: #1b1432;
+      --primary: #7b2cbf;
+      --accent: #00ff87;
+      --accent-glow: rgba(0, 255, 135, 0.2);
+      --gold: #ffd700;
+      --text-main: #f3f0ff;
+      --text-muted: #948fa6;
+      --border: #2c1a4d;
+      --border-glow: #7b2cbf;
     }
 
-    with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
-        json.dump(output_data, f, ensure_ascii=False, indent=2)
-    
-    print(f"Skanning klar! Hittade {len(filtered_articles)} relevanta Forever-ändringar.")
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-if __name__ == "__main__":
-    fetch_and_filter_warlock_news()
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.7;
+      padding: 30px 15px;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(123, 44, 191, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(0, 255, 135, 0.05) 0%, transparent 40%);
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 35px;
+      padding-bottom: 25px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    header h1 {
+      font-family: 'Cinzel', serif;
+      color: var(--accent);
+      font-size: 2.8rem;
+      margin-bottom: 10px;
+      text-shadow: 0 0 20px var(--accent-glow);
+      letter-spacing: 1px;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+    }
+
+    /* Status Banner */
+    .status-banner {
+      background: linear-gradient(135deg, #120e21 0%, #1a1235 100%);
+      border: 1px solid var(--border);
+      padding: 15px 25px;
+      border-radius: 12px;
+      margin-bottom: 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+
+    .status-banner strong {
+      color: var(--gold);
+    }
+
+    /* Modern Tab Navigation */
+    .nav-tabs {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .nav-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 12px 22px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+    }
+
+    .nav-btn:hover {
+      background: var(--bg-card-hover);
+      color: var(--text-main);
+      border-color: var(--primary);
+    }
+
+    .nav-btn.active {
+      background: var(--primary);
+      color: var(--accent);
+      border-color: var(--accent);
+      box-shadow: 0 0 15px rgba(123, 44, 191, 0.5);
+    }
+
+    /* Content Sections */
+    .section {
+      display: none;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 35px;
+      margin-bottom: 25px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+      animation: fadeIn 0.4s ease-in-out;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      font-family: 'Cinzel', serif;
+      color: var(--gold);
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+    }
+
+    h3 {
+      color: var(--accent);
+      margin: 25px 0 1
