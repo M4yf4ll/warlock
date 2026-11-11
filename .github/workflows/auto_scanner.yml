@@ -1,38 +1,29 @@
-name: WoW Forever Warlock Auto Scanner
+name: Run Warlock Auto Scanner
 
 on:
   schedule:
-    - cron: '0 3 * * *'
-  workflow_dispatch:
-
-permissions:
-  contents: write
+    # Kör automatiskt var 6:e timme
+    - cron: '0 */6 * * *'
+  workflow_dispatch: # Gör att du kan köra den manuellt från GitHub-sidan när du vill
 
 jobs:
-  scan-and-update:
+  run-scraper:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Hämta kodfilerna
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Konfigurera Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.x'
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
 
-    - name: Installera beroenden
-      run: |
-        python -m pip install --upgrade pip
-        pip install requests
+      - name: Run scraper script
+        run: python scraper.py
 
-    - name: Kör Skannern
-      run: python scraper.py
-
-    - name: Spara ändringar till GitHub Repository
-      run: |
-        git config --global user.name 'Warlock-Bot'
-        git config --global user.email 'bot@github.com'
-        touch warlock_patches.json
-        git add warlock_patches.json
-        git diff-index --quiet HEAD || (git commit -m "Auto-update: Nya Warlock patch-noteringar" && git push)
+      - name: Commit and push changes if warlock_patches.json was updated
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add warlock_patches.json
+          git diff --quiet && git diff --cached --quiet || (git commit -m "Auto-update patch news [skip ci]" && git push)
