@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Undead Warlock 1–60 Guide | WoW Forever</title>
-    <!-- Tailwind CSS -->
-    <script src="assets/tailwind.js"></script>
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -38,7 +38,8 @@
             }
         }
     </script>
-    <link rel="stylesheet" href="assets/css/all.min.css">
+    <!-- FontAwesome Ikoner (CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .hidden {
             display: none !important;
@@ -1173,7 +1174,8 @@
             if (!list) return;
 
             const filtered = wandDb.filter(w => state.searchQuery === '' ||
-                [w.name, w.source, w.dps, String(w.lvl)].some(value => value.toLowerCase().includes(state.searchQuery)));
+                [w.name, w.source, w.dps, String(w.lvl)].some(value => value.toLowerCase().includes(state.searchQuery))
+            );
 
             list.innerHTML = filtered.map(w => `
                 <div class="p-2.5 rounded-lg border ${state.level >= w.lvl ? 'bg-purple-950/20 border-fel/40' : 'bg-slate-900/40 border-slate-800 opacity-60'} flex items-center justify-between text-xs">
