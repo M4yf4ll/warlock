@@ -1268,11 +1268,43 @@
             const modal = document.getElementById('meta-modal');
             if (modal) modal.classList.add('hidden');
         }
+    async function initApp() {
+            setupTabNavigation();
+            setupSliderEvents();
+            setupSearch();
+            setupNetworkStatus();
+            setupProfessionTracker();
 
-        // Kör skanningen direkt när sidan laddas, och uppdatera sedan automatiskt var 5:e minut
+            try {
+                // Hämta dynamisk data från warlock_data.json
+                const res = await fetch('./warlock_data.json?v=' + new Date().getTime());
+                if (res.ok) {
+                    const data = await res.json();
+                    
+                    // Uppdatera alla datastrukturer dynamiskt
+                    if (data.phases) phaseData.splice(0, phaseData.length, ...data.phases);
+                    if (data.spells) spellsDb.splice(0, spellsDb.length, ...data.spells);
+                    if (data.wands) wandDb.splice(0, wandDb.length, ...data.wands);
+                    if (data.quests) classQuestsDb.splice(0, classQuestsDb.length, ...data.quests);
+                    if (data.zone_routes) zoneRouteDb.splice(0, zoneRouteDb.length, ...data.zone_routes);
+                    if (data.macros) macrosDb.splice(0, macrosDb.length, ...data.macros);
+                    if (data.talents) {
+                        talentTreesData.affliction = data.talents.affliction || talentTreesData.affliction;
+                        talentTreesData.demonology = data.talents.demonology || talentTreesData.demonology;
+                    }
+                }
+            } catch (err) {
+                console.log("Kunde inte ladda warlock_data.json, använder standardvärden.", err);
+            }
+
+            renderAll();
+            fetchGitHubPatches();
+        }
+
+        // Starta appen och sätt en timer som uppdaterar alla flikar var 5:e minut
         window.onload = function() {
             initApp();
-            setInterval(fetchGitHubPatches, 300000); // 300 000 ms = 5 minuter
+            setInterval(initApp, 300000); 
         };
     </script>
 </body>
