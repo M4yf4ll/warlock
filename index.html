@@ -1,298 +1,62 @@
-<!DOCTYPE html>
-<html lang="sv">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WoW Forever - Ultimate Warlock Leveling Guide (1-60)</title>
-  <style>
-    :root {
-      --bg-dark: #0b0914;
-      --card-bg: #161224;
-      --primary: #7b2cbf;
-      --accent: #00ff87;
-      --gold: #ffd700;
-      --text: #e0e0e0;
-      --text-muted: #aaa;
-      --border: #3b1f6b;
+import requests
+import json
+import xml.etree.ElementTree as ET
+from datetime import datetime
+
+RSS_URL = "https://worldofwarcraft.blizzard.com/en-gb/news/rss"
+OUTPUT_FILE = "warlock_patches.json"
+
+def fetch_and_filter_warlock_news():
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) WoWForeverWarlockBot/2.0'
+    }
+    
+    try:
+        response = requests.get(RSS_URL, headers=headers, timeout=10)
+        response.raise_for_status()
+    except Exception as e:
+        print(f"Fel vid hämtning av RSS: {e}")
+        return
+
+    root = ET.fromstring(response.content)
+    channel = root.find('channel')
+    
+    warlock_keywords = ['warlock', 'forever', 'class change', 'hotfix', 'patch', 'voidwalker', 'succubus', 'soul siphon', 'felsteed', 'buff', 'nerf']
+    filtered_articles = []
+    guide_status = "Optimerad för aktuell Patch"
+
+    if channel is not None:
+        for item in channel.findall('item'):
+            title = item.find('title').text if item.find('title') is not None else ""
+            link = item.find('link').text if item.find('link') is not None else ""
+            pub_date = item.find('pubDate').text if item.find('pubDate') is not None else ""
+            description = item.find('description').text if item.find('description') is not None else ""
+
+            content_to_check = (title + " " + description).lower()
+            
+            if any(keyword in content_to_check for keyword in warlock_keywords):
+                # Om en större patch nämns, flagga guiden för översyn
+                if "patch" in content_to_check or "hotfix" in content_to_check:
+                    guide_status = "⚠️ Ny patch detekterad – Se över ändringar nedan!"
+
+                filtered_articles.append({
+                    "title": title,
+                    "link": link,
+                    "date": pub_date,
+                    "summary": description[:250] + "..." if len(description) > 250 else description
+                })
+
+    output_data = {
+        "last_updated": datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC"),
+        "guide_status": guide_status,
+        "total_updates": len(filtered_articles),
+        "articles": filtered_articles
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
+        json.dump(output_data, f, ensure_ascii=False, indent=2)
+    
+    print(f"Skanning klar! Hittade {len(filtered_articles)} relevanta Forever-ändringar.")
 
-    body {
-      background-color: var(--bg-dark);
-      color: var(--text);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      line-height: 1.6;
-      padding: 20px;
-    }
-
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    header {
-      text-align: center;
-      margin-bottom: 30px;
-      border-bottom: 2px solid var(--primary);
-      padding-bottom: 20px;
-    }
-
-    header h1 {
-      color: var(--accent);
-      font-size: 2.2rem;
-      margin-bottom: 10px;
-      text-shadow: 0 0 10px rgba(0,255,135,0.3);
-    }
-
-    header p {
-      color: var(--text-muted);
-    }
-
-    /* Navigeringsflikar */
-    .nav-tabs {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .nav-btn {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      color: var(--text);
-      padding: 10px 18px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: all 0.2s ease;
-    }
-
-    .nav-btn:hover, .nav-btn.active {
-      background: var(--primary);
-      color: var(--accent);
-      border-color: var(--accent);
-      box-shadow: 0 0 10px rgba(123,44,191,0.5);
-    }
-
-    /* Innehållssektioner */
-    .section {
-      display: none;
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 25px;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-    }
-
-    .section.active {
-      display: block;
-    }
-
-    h2 {
-      color: var(--gold);
-      margin-bottom: 15px;
-      font-size: 1.5rem;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 8px;
-    }
-
-    h3 {
-      color: var(--accent);
-      margin: 15px 0 8px 0;
-      font-size: 1.2rem;
-    }
-
-    p, li {
-      margin-bottom: 10px;
-    }
-
-    ul, ol {
-      padding-left: 20px;
-    }
-
-    .badge {
-      background: #390099;
-      color: var(--accent);
-      padding: 3px 8px;
-      border-radius: 4px;
-      font-size: 0.8em;
-      font-weight: bold;
-    }
-
-    .card {
-      background: #110d1f;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 15px;
-      margin-bottom: 15px;
-    }
-
-    a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    /* Footer */
-    footer {
-      text-align: center;
-      margin-top: 40px;
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      border-top: 1px solid var(--border);
-      padding-top: 15px;
-    }
-  </style>
-</head>
-<body>
-
-  <div class="container">
-    <header>
-      <h1>WoW Forever Warlock Guide (1-60)</h1>
-      <p>Komplett guide för Drain Tanking, Talents, Spells samt automatiska uppdateringar via GitHub Bot.</p>
-    </header>
-
-    <!-- Huvudmeny -->
-    <div class="nav-tabs">
-      <button class="nav-btn active" onclick="switchTab('spelstil')">Spelstil & Rotation</button>
-      <button class="nav-btn" onclick="switchTab('talents')">Talent-träd (1-60)</button>
-      <button class="nav-btn" onclick="switchTab('spells')">Spells & Guld</button>
-      <button class="nav-btn" onclick="switchTab('patches')">Live Patch-skanner 🤖</button>
-    </div>
-
-    <!-- Sektion 1: Spelstil -->
-    <div id="spelstil" class="section active">
-      <h2>Spelstil & Grundprincip ("Drain Tanking")</h2>
-      <p>Warlock är en av de absolut snabbaste och mest uthålliga klasserna att levela i Vanilla / WoW Forever. Målet är <strong>noll downtime</strong> (ingen tid spenderad på att dricka eller äta):</p>
-      <ul>
-        <li><strong>Resurshantering:</strong> Omvandla din Health till Mana med <code>Life Tap</code>, och få tillbaka Health genom dina DoTs och <code>Drain Life</code>.</li>
-        <li><strong>Husdjur:</strong> Använd <strong>Voidwalker</strong> i början för att tanka, eller <strong>Succubus</strong> senare för högre skada.</li>
-        <li><strong>Kastspö (Wand):</strong> Ditt viktigaste vapen under de första 38 levelarna! Avsluta alltid fiender med din wand för att spara mana.</li>
-      </ul>
-      
-      <h3>Grundläggande Rotation (Single Target)</h3>
-      <ol>
-        <li>Skicka fram din demon (Voidwalker/Succubus).</li>
-        <li>Casta <code>Curse of Agony</code>.</li>
-        <li>Casta <code>Corruption</code>.</li>
-        <li>Casta <code>Siphon Life</code> (om du har talenten).</li>
-        <li>Använd <code>Drain Life</code> vid behov av hälsa, annars skjuter du med din wand.</li>
-        <li>Använd <code>Drain Soul (Rank 1)</code> på sista sekunderna för en Soul Shard och mana-regen.</li>
-      </ol>
-    </div>
-
-    <!-- Sektion 2: Talents -->
-    <div id="talents" class="section">
-      <h2>Affliction Talent-träd (Steg-för-steg 10–60)</h2>
-      <p>Det mest effektiva och säkra sättet att levela en Warlock i Classic.</p>
-      <ul>
-        <li><strong>Level 10–14:</strong> <code>Improved Corruption</code> (5/5) – Gör Corruption till instant-cast.</li>
-        <li><strong>Level 15–16:</strong> <code>Improved Life Tap</code> (2/2) – Ger mer mana per Life Tap.</li>
-        <li><strong>Level 17–21:</strong> <code>Fel Concentration</code> (5/5) – 70% chans att undvika interrupted casts under Drain Life.</li>
-        <li><strong>Level 22–29:</strong> Sikte på <code>Siphon Life</code> på Level 30.</li>
-        <li><strong>Level 30–39:</strong> Fortsätt upp till <code>Shadow Mastery</code> (5/5) för 10% extra skada.</li>
-        <li><strong>Level 40+:</strong> Byt till Dark Pact eller gå vidare i Demonology/Destruction beroende på spelstil.</li>
-      </ul>
-    </div>
-
-    <!-- Sektion 3: Spells -->
-    <div id="spells" class="section">
-      <h2>Spells & Guldsparande (Spara till Mount!)</h2>
-      <p>Du får ditt <strong>gratis riddjur vid lvl 40</strong> (Felsteed) via din class quest! Köp inte alla onödiga spells från tränaren.</p>
-      
-      <h3>Prioritera att uppgradera:</h3>
-      <ul>
-        <li>Corruption & Curse of Agony</li>
-        <li>Drain Life & Drain Soul (Rank 1 räcker för shard-farm)</li>
-        <li>Life Tap & Demon Armor</li>
-        <li>Healthstone & Soulstone</li>
-      </ul>
-
-      <h3>Hoppa över / Låg prioritet:</h3>
-      <p>Firebolt till Impen om du kör Voidwalker, Rain of Fire, Hellfire och högre ranker av Curse of Weakness.</p>
-    </div>
-
-    <!-- Sektion 4: Live Patches / Skanner -->
-    <div id="patches" class="section">
-      <h2>Automatiska Warlock & Classic Patch-nyheter</h2>
-      <p>Den här sektionen hämtar data från filen <code>warlock_patches.json</code> som uppdateras automatiskt av din GitHub Bot varje natt.</p>
-      
-      <div class="card">
-        <p><strong>Bot-Status:</strong> <span id="sync-status" style="color: var(--accent);">Letar efter skannade filer...</span></p>
-        <p><strong>Senast uppdaterad:</strong> <span id="last-updated">-</span></p>
-      </div>
-
-      <div id="patch-container">
-        <!-- Innehåll laddas dynamiskt här -->
-        <p style="color: var(--text-muted);">Laddar in patch-historik...</p>
-      </div>
-    </div>
-
-    <footer>
-      <p>WoW Forever Warlock Guide &bull; Skapad med HTML/CSS och GitHub Actions</p>
-    </footer>
-  </div>
-
-  <script>
-    // Funktion för att byta flikar
-    function switchTab(tabId) {
-      document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
-      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-      
-      document.getElementById(tabId).classList.add('active');
-      event.currentTarget.classList.add('active');
-    }
-
-    // Funktion som hämtar den auto-skannade JSON-filen
-    async function loadLivePatches() {
-      const statusEl = document.getElementById('sync-status');
-      const updatedEl = document.getElementById('last-updated');
-      const containerEl = document.getElementById('patch-container');
-
-      try {
-        const response = await fetch('./warlock_patches.json?v=' + new Date().getTime());
-        if (!response.ok) throw new Error("Ingen JSON-fil hittades ännu.");
-        
-        const data = await response.json();
-        
-        statusEl.innerText = "Aktiv & Ansluten";
-        updatedEl.innerText = data.last_updated;
-
-        if (!data.articles || data.articles.length === 0) {
-          containerEl.innerHTML = "<p>Inga nya Warlock-specifika ändringar registrerade ännu.</p>";
-          return;
-        }
-
-        containerEl.innerHTML = data.articles.map(art => `
-          <div class="card">
-            <span class="badge">${art.date}</span>
-            <h3 style="margin: 10px 0 5px 0;"><a href="${art.link}" target="_blank">${art.title}</a></h3>
-            <p style="color: var(--text-muted); font-size: 0.9em;">${art.summary}</p>
-          </div>
-        `).join('');
-
-      } catch (err) {
-        statusEl.innerText = "Väntar på första skanningen";
-        containerEl.innerHTML = `
-          <div class="card">
-            <p><strong>Ingen <code>warlock_patches.json</code> hittades än!</strong></p>
-            <p style="color: var(--text-muted); font-size: 0.9em; margin-top: 5px;">
-              Detta är helt normalt om du precis har skapat ditt GitHub-repository. Boten kommer att köra sin första automatiska skanning i natt, eller så kan du köra den manuellt direkt via <em>Actions</em>-fliken på ditt GitHub-repo.
-            </p>
-          </div>
-        `;
-      }
-    }
-
-    // Kör funktionen när sidan laddas
-    loadLivePatches();
-  </script>
-
-</body>
-</html>
+if __name__ == "__main__":
+    fetch_and_filter_warlock_news()
