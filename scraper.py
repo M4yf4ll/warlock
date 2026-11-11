@@ -13,6 +13,14 @@ SOURCES = [
     }
 ]
 
+COMMUNITY_GUIDES = [
+    {
+        "name": "Warcraft Tavern Warlock Class Guide — Zephan",
+        "url": "https://www.warcrafttavern.com/forever/guides/warlock/",
+        "description": "Community theorycraft reference covering all three Warlock specializations."
+    }
+]
+
 class BlizzardNewsParser(HTMLParser):
     def __init__(self):
         super().__init__()
@@ -111,9 +119,14 @@ def fetch_updates():
                 if article["link"] in seen_links or not any(keyword in title.lower() for keyword in source["keywords"]):
                     continue
                 seen_links.add(article["link"])
-                article_request = urllib.request.Request(article["link"], headers=headers)
-                with urllib.request.urlopen(article_request, timeout=20) as response:
-                    article_page = response.read().decode("utf-8", errors="replace")
+                try:
+                    article_request = urllib.request.Request(article["link"], headers=headers)
+                    with urllib.request.urlopen(article_request, timeout=20) as response:
+                        article_page = response.read().decode("utf-8", errors="replace")
+                except Exception as error:
+                    errors.append(f"{title}: {error}")
+                    print(f"Could not read {title}: {error}")
+                    continue
                 warlock_changes = extract_warlock_changes(article_page)
                 if not warlock_changes:
                     continue
@@ -121,34 +134,35 @@ def fetch_updates():
                     "title": title,
                     "link": article["link"],
                     "date": article_date(title),
-                    "summary": f"{len(warlock_changes)} officiella Warlock-ändringar från {source['name']}.",
+                    "summary": f"{len(warlock_changes)} official Warlock changes from {source['name']}.",
                     "warlock_changes": warlock_changes
                 })
                 if len(articles) >= 8:
                     break
         except Exception as error:
             errors.append(f"{source['name']}: {error}")
-            print(f"Kunde inte hämta från {source['name']}: {error}")
+            print(f"Could not fetch from {source['name']}: {error}")
 
     return articles, errors
 
 def main():
-    print("Skannar officiella WoW-nyheter för Warlock och patchnotiser...")
+    print("Scanning official WoW news for Warlock and patch notes...")
     fetched_articles, source_errors = fetch_updates()
-    guide_status = "Synkad med Blizzard WoW News" if not source_errors else "Fel vid skanning av Blizzard WoW News"
+    guide_status = "Synced with Blizzard WoW News" if not source_errors else "Error scanning Blizzard WoW News"
 
     output_data = {
         "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M"),
         "guide_status": guide_status,
         "total_updates": len(fetched_articles),
         "source_errors": source_errors,
+        "community_guides": COMMUNITY_GUIDES,
         "articles": fetched_articles
     }
 
     with open("warlock_patches.json", "w", encoding="utf-8") as f:
         json.dump(output_data, f, ensure_ascii=False, indent=2)
 
-    print("warlock_patches.json uppdaterad framgångsrikt!")
+    print("warlock_patches.json updated successfully!")
 
 if __name__ == "__main__":
     main()

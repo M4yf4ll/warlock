@@ -2,9 +2,12 @@ name: Run Warlock Auto Scanner
 
 on:
   schedule:
-    # Kör automatiskt var 6:e timme
-    - cron: '0 */6 * * *'
+    # Kontrollera varje timme efter nya Warlock-ändringar
+    - cron: '13 * * * *'
   workflow_dispatch: # Gör att du kan köra den manuellt från GitHub-sidan när du vill
+
+permissions:
+  contents: write
 
 jobs:
   run-scraper:
@@ -26,4 +29,4 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add warlock_patches.json
-          git diff --quiet && git diff --cached --quiet || (git commit -m "Auto-update patch news [skip ci]" && git push)
+          git diff --quiet && git diff --cached --quiet || (git commit -m "Auto-update patch news" && git push)
