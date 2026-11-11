@@ -145,4 +145,341 @@
 
     h3 {
       color: var(--accent);
-      margin: 25px 0 1
+      margin: 25px 0 12px 0;
+      font-size: 1.25rem;
+    }
+
+    p, li {
+      margin-bottom: 14px;
+      color: #d1cbdc;
+    }
+
+    ul, ol {
+      padding-left: 22px;
+    }
+
+    .badge {
+      background: rgba(123, 44, 191, 0.3);
+      color: var(--accent);
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 0.85em;
+      font-weight: 700;
+      border: 1px solid var(--primary);
+    }
+
+    .card {
+      background: #0d0a17;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 22px;
+      margin-bottom: 20px;
+      transition: border-color 0.2s ease;
+    }
+
+    .card:hover {
+      border-color: var(--primary);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+      align-items: center;
+      margin: 20px 0;
+    }
+
+    @media (max-width: 768px) {
+      .grid-2 { grid-template-columns: 1fr; }
+      header h1 { font-size: 2rem; }
+    }
+
+    .guide-image {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+    }
+
+    /* Modern Tables */
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 20px 0;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    th, td {
+      padding: 14px 18px;
+      text-align: left;
+    }
+
+    th {
+      background: #1a1235;
+      color: var(--gold);
+      font-weight: 600;
+      border-bottom: 1px solid var(--border);
+    }
+
+    td {
+      background: #0d0a17;
+      border-bottom: 1px solid var(--border);
+      color: #d1cbdc;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    a:hover {
+      opacity: 0.8;
+      text-decoration: underline;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 50px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      border-top: 1px solid var(--border);
+      padding-top: 25px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>WoW Forever Warlock Meta Guide</h1>
+      <p>Optimerad levling, builds och automatiskt synkat patch-flöde</p>
+    </header>
+
+    <!-- Status Banner -->
+    <div class="status-banner">
+      <div><strong>Patch-status:</strong> <span id="guide-sync-status" style="color: var(--accent);">Synkar med GitHub Bot...</span></div>
+      <div><strong>Senast kontrollerad:</strong> <span id="last-updated">-</span></div>
+    </div>
+
+    <!-- Huvudmeny -->
+    <div class="nav-tabs">
+      <button class="nav-btn active" onclick="switchTab('spelstil')">Spelstil & Meta</button>
+      <button class="nav-btn" onclick="switchTab('races')">Bästa Raserna</button>
+      <button class="nav-btn" onclick="switchTab('levels')">Leveling 1–60 & Wands</button>
+      <button class="nav-btn" onclick="switchTab('talents')">Talents & Rotation</button>
+      <button class="nav-btn" onclick="switchTab('gear')">Stats & Gear</button>
+      <button class="nav-btn" onclick="switchTab('patches')">Live Patch-flöde 🤖</button>
+    </div>
+
+    <!-- Sektion 1: Spelstil -->
+    <div id="spelstil" class="section active">
+      <h2>Spelstil & Grundprincip ("Drain Tanking")</h2>
+      
+      <div class="grid-2">
+        <div>
+          <p>Warlock är en av de absolut effektivaste klasserna för sololeveling i WoW Forever tack vare <strong>Drain Tanking</strong>:</p>
+          <ul>
+            <li><strong>Mana-motor:</strong> Konvertera HP till Mana omedelbart med <code>Life Tap</code>.</li>
+            <li><strong>HP-motor:</strong> Återhämta hälsan med <code>Drain Life</code> och dina skade-över-tid-formler (DoTs).</li>
+            <li><strong>Zero Downtime:</strong> Med rätt rytm slipper du slösa tid på att dricka eller äta mellan striderna.</li>
+          </ul>
+        </div>
+        <div>
+          <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=600&q=80" alt="Gaming Setup" class="guide-image">
+          <p style="font-size: 0.85em; color: var(--text-muted); text-align: center; margin-top: 8px;">Skapad för ren effektivitet i nya zoner.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sektion 2: Rasval -->
+    <div id="races" class="section">
+      <h2>Bästa Raserna för Warlock (Top Player Meta)</h2>
+      <p>Data från communityn visar vilka raser som presterar bäst i både PvP och PvE:</p>
+
+      <div class="card">
+        <h3>Horde: Undead (Det mest populära valet)</h3>
+        <p><strong>Will of the Forsaken:</strong> Ger immunitet mot och bryter Fear, Sleep och Charm — helt ovärderligt i PvP.</p>
+        <p><strong>Cannibalize:</strong> Snabb passiv hälsoåterhämtning efter drabbningar.</p>
+      </div>
+
+      <div class="card">
+        <h3>Alliance: Human & Gnome</h3>
+        <p><strong>Human:</strong> Starkt för Affliction tack vare ökad Spirit och vapenexpertis.</p>
+        <p><strong>Gnome:</strong> Har <em>Escape Artist</em> för att bryta rötter och snabba upp förflyttningar, samt extra Intellect.</p>
+      </div>
+    </div>
+
+    <!-- Sektion 3: Leveling & Wands -->
+    <div id="levels" class="section">
+      <h2>Leveling 1–60 & Vart du hittar Wands</h2>
+      <p>Att skaffa en kraftfull Wand tidigt är absolut avgörande för att spara mana:</p>
+
+      <table>
+        <tr>
+          <th>Nivå-spann</th>
+          <th>Viktiga Wand-milstolpar</th>
+          <th>Husdjur & Strategi</th>
+        </tr>
+        <tr>
+          <td><strong>1 – 12</strong></td>
+          <td><strong>Lesser Magic Wand</strong> (Lvl 5)<br><strong>Greater Magic Wand</strong> (Lvl 13)</td>
+          <td>Köp direkt från Auction House (Enchanting). Använd Impen för avståndsskada.</td>
+        </tr>
+        <tr>
+          <td><strong>13 – 25</strong></td>
+          <td><strong>Gravestone Scepter</strong> (Lvl 27 quest)</td>
+          <td>Gör Voidwalker-questen på lvl 10. Låt demonen tanka medan dina DoTs tickar.</td>
+        </tr>
+        <tr>
+          <td><strong>26 – 40</strong></td>
+          <td><strong>Deepblaze Wand</strong> / Noxious Shooter</td>
+          <td>Byt till Succubus för högre skada om du har bra kontroll. Gör quest för gratis mount (Felsteed) på lvl 40!</td>
+        </tr>
+        <tr>
+          <td><strong>41 – 60</strong></td>
+          <td><strong>Touch of Chaos</strong> / Endgame Wands</td>
+          <td>Affliction är nu fullt utbyggt med <code>Dark Pact</code> för oändlig uthållighet.</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Sektion 4: Talents -->
+    <div id="talents" class="section">
+      <h2>Affliction Talent-träd & Rotation</h2>
+      
+      <div class="card">
+        <h3>Rekommenderad Leveling Build</h3>
+        <ul>
+          <li><strong>Level 10–14:</strong> Improved Corruption (5/5) — Omedelbar kasttid på Corruption.</li>
+          <li><strong>Level 15–16:</strong> Improved Life Tap (2/2) — Ger mer mana per konvertering.</li>
+          <li><strong>Level 17–21:</strong> Fel Concentration (5/5) — 70% chans att undvika att Drain Life avbryts av skada.</li>
+          <li><strong>Level 30:</strong> Siphon Life — Kraftfull extra DoT som läker dig.</li>
+          <li><strong>Level 40:</strong> Dark Pact — Sug mana direkt från ditt husdjur.</li>
+        </ul>
+      </div>
+
+      <h3>Optimerad Rotation</h3>
+      <ol>
+        <li>Skicka fram ditt husdjur för att dra på sig aggro.</li>
+        <li>Kasta <code>Curse of Agony</code> $\rightarrow$ <code>Corruption</code> $\rightarrow$ <code>Siphon Life</code>.</li>
+        <li>Kanalisera <code>Drain Life</code> för att hålla ditt eget liv på topp.</li>
+        <li>Använd din wand under målets sista procent för att spara mana.</li>
+      </ol>
+    </div>
+
+    <!-- Sektion 5: Gear & Stats -->
+    <div id="gear" class="section">
+      <h2>Stat-prioritet</h2>
+
+      <table>
+        <tr>
+          <th>Prioritet</th>
+          <th>Stat</th>
+          <th>Förklaring</th>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td><strong>Spell Power / Shadow Power</strong></td>
+          <td>Maximerar skadan på alla dina DoTs och Drain Life.</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><strong>Stamina</strong></td>
+          <td>Mer hälsa ger dig mer utrymme att använda Life Tap.</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><strong>Intellect</strong></td>
+          <td>Ger en större total mana-pool och högre ch kritisk chans.</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><strong>Spirit</strong></td>
+          <td>Hjälper till med passiv återhämtning.</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Sektion 6: Live Patches -->
+    <div id="patches" class="section">
+      <h2>Automatiska Patch- och Hotfix-nyheter (WoW Forever)</h2>
+      
+      <div class="card">
+        <p><strong>Systemstatus:</strong> <span id="sync-status" style="color: var(--accent);">Ansluten till GitHub</span></p>
+        <p><strong>Totalt hittade uppdateringar:</strong> <span id="total-articles">0</span> st</p>
+      </div>
+
+      <div id="patch-container">
+        <p style="color: var(--text-muted);">Laddar in senaste data...</p>
+      </div>
+    </div>
+
+    <footer>
+      <p>WoW Forever Warlock Guide &bull; Uppdateras automatiskt via GitHub Actions</p>
+    </footer>
+  </div>
+
+  <script>
+    function switchTab(tabId) {
+      document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+      
+      document.getElementById(tabId).classList.add('active');
+      event.currentTarget.classList.add('active');
+    }
+
+    async function loadLivePatches() {
+      const statusEl = document.getElementById('sync-status');
+      const updatedEl = document.getElementById('last-updated');
+      const guideSyncEl = document.getElementById('guide-sync-status');
+      const containerEl = document.getElementById('patch-container');
+
+      try {
+        const response = await fetch('./warlock_patches.json?v=' + new Date().getTime());
+        if (!response.ok) throw new Error("Kunde inte läsa in patch-filen.");
+        
+        const data = await response.json();
+        
+        updatedEl.innerText = data.last_updated;
+        guideSyncEl.innerText = data.guide_status || "Optimerad för aktiv Patch";
+
+        if (!data.articles || data.articles.length === 0) {
+          containerEl.innerHTML = "<p>Inga nya Forever-relaterade patchändringar hittades för tillfället.</p>";
+          return;
+        }
+
+        containerEl.innerHTML = data.articles.map(art => `
+          <div class="card">
+            <span class="badge">${art.date}</span>
+            <h3 style="margin: 10px 0 5px 0;"><a href="${art.link}" target="_blank">${art.title}</a></h3>
+            <p style="color: var(--text-muted); font-size: 0.9em;">${art.summary}</p>
+          </div>
+        `).join('');
+
+      } catch (err) {
+        statusEl.innerText = "Väntar på första skanningen...";
+        guideSyncEl.innerText = "Standardläge";
+        containerEl.innerHTML = `
+          <div class="card">
+            <p><strong>Ingen <code>warlock_patches.json</code> hittades ännu!</strong></p>
+            <p style="color: var(--text-muted); font-size: 0.9em; margin-top: 5px;">
+              Boten skapar filen automatiskt. Du kan även gå till <em>Actions</em> på ditt GitHub-repo och klicka på <em>Run workflow</em> för att köra skannern direkt.
+            </p>
+          </div>
+        `;
+      }
+    }
+
+    loadLivePatches();
+  </script>
+
+</body>
+</html>
