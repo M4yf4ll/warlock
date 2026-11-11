@@ -35,6 +35,51 @@ class BlizzardNewsParser(HTMLParser):
                 self.articles.append(self.current_article)
             self.current_article = None
 
+class WarlockChangeParser(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.roots = []
+        self.stack = []
+
+    def handle_starttag(self, tag, attrs):
+        if tag != "li":
+            return
+        node = {"text": [], "children": []}
+        if self.stack:
+            self.stack[-1]["children"].append(node)
+        else:
+            self.roots.append(node)
+        self.stack.append(node)
+
+    def handle_endtag(self, tag):
+        if tag == "li" and self.stack:
+            self.stack.pop()
+
+    def handle_data(self, data):
+        if self.stack:
+            self.stack[-1]["text"].append(data)
+
+def extract_warlock_changes(page):
+    parser = WarlockChangeParser()
+    parser.feed(page)
+    changes = []
+
+    def collect(node, prefix=""):
+        text = " ".join(" ".join(node["text"]).split())
+        if text.casefold() in {"affliction", "demonology", "destruction"}:
+            prefix = f"{prefix}{text}: "
+        elif text:
+            changes.append(f"{prefix}{text}".strip())
+        for child in node["children"]:
+            collect(child, prefix)
+
+    for node in parser.roots:
+        if " ".join(" ".join(node["text"]).split()).casefold() == "warlock":
+            for child in node["children"]:
+                collect(child)
+
+    return list(dict.fromkeys(changes))
+
 def article_date(title):
     match = re.search(r"(?:-|:)\s*([A-Z][a-z]+ \d{1,2}, \d{4})$", title)
     if match:
@@ -66,11 +111,18 @@ def fetch_updates():
                 if article["link"] in seen_links or not any(keyword in title.lower() for keyword in source["keywords"]):
                     continue
                 seen_links.add(article["link"])
+                article_request = urllib.request.Request(article["link"], headers=headers)
+                with urllib.request.urlopen(article_request, timeout=20) as response:
+                    article_page = response.read().decode("utf-8", errors="replace")
+                warlock_changes = extract_warlock_changes(article_page)
+                if not warlock_changes:
+                    continue
                 articles.append({
                     "title": title,
                     "link": article["link"],
                     "date": article_date(title),
-                    "summary": f"Officiell WoW-nyhet från {source['name']}."
+                    "summary": f"{len(warlock_changes)} officiella Warlock-ändringar från {source['name']}.",
+                    "warlock_changes": warlock_changes
                 })
                 if len(articles) >= 8:
                     break

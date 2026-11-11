@@ -845,6 +845,57 @@
             }[char]));
         }
 
+        function renderWarlockPatchUpdates(articles) {
+            const updates = articles.flatMap(article => {
+                if (!Array.isArray(article.warlock_changes)) return [];
+                const link = String(article.link || '');
+                if (!/^https?:\/\//i.test(link)) return [];
+                return article.warlock_changes.map(change => ({
+                    change: String(change),
+                    date: String(article.date || ''),
+                    title: String(article.title || ''),
+                    link
+                }));
+            }).slice(0, 20);
+
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                let panel = tab.querySelector('.warlock-patch-updates');
+                if (!updates.length) {
+                    if (panel) panel.remove();
+                    return;
+                }
+                if (!panel) {
+                    panel = document.createElement('aside');
+                    panel.className = 'warlock-patch-updates mb-4';
+                    tab.prepend(panel);
+                }
+
+                const first = updates[0];
+                const items = updates.map(update => `
+                    <li class="text-xs text-slate-300">
+                        <span class="text-fel font-mono">${escapeHTML(update.date)}</span>
+                        <span>${escapeHTML(update.change)}</span>
+                        <a class="text-amber-300 hover:text-amber-200 underline" href="${escapeHTML(update.link)}" target="_blank" rel="noopener noreferrer">Källa</a>
+                    </li>
+                `).join('');
+
+                panel.innerHTML = `
+                    <div class="p-3.5 bg-amber-950/25 border border-amber-800/50 rounded-lg">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <h3 class="text-sm font-bold text-amber-200">Senaste Warlock-ändringar (${updates.length})</h3>
+                            <a class="text-xs text-amber-300 hover:text-amber-200 underline" href="${escapeHTML(first.link)}" target="_blank" rel="noopener noreferrer">${escapeHTML(first.title)}</a>
+                        </div>
+                        <p class="text-xs text-slate-300 mt-2">${escapeHTML(first.change)}</p>
+                        <details class="mt-2">
+                            <summary class="text-xs text-amber-300 cursor-pointer">Visa alla officiella ändringar</summary>
+                            <ul class="space-y-2 mt-2">${items}</ul>
+                            <p class="text-[11px] text-slate-400 mt-2">Officiella patchnotiser; build- och levelingråd behöver granskas separat.</p>
+                        </details>
+                    </div>
+                `;
+            });
+        }
+
         async function fetchGitHubPatches() {
             const listEl = document.getElementById('live-patch-list');
             const statusEl = document.getElementById('sync-guide-status');
@@ -860,6 +911,7 @@
                 if (updatedEl) updatedEl.innerText = data.last_updated || "Nyligen";
 
                 const articles = Array.isArray(data.articles) ? data.articles : [];
+                renderWarlockPatchUpdates(articles);
                 if (articles.length === 0) {
                     const sourceErrors = Array.isArray(data.source_errors) ? data.source_errors : [];
                     const message = sourceErrors.length
