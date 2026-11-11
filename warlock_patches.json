@@ -1,13 +1,20 @@
 {
-  "last_updated": "2026-11-11 14:19",
-  "guide_status": "Aktiv & Synkad med Blizzard/Wowhead",
-  "total_updates": 1,
+  "last_updated": "2026-11-11 16:26",
+  "guide_status": "Synkad med Blizzard WoW News",
+  "total_updates": 2,
+  "source_errors": [],
   "articles": [
     {
-      "title": "WoW Official Patch & Class Status",
-      "link": "https://news.blizzard.com/en-us/wow",
-      "date": "2026-11-11",
-      "summary": "Inga nya specifika Warlock-ändringar i senaste timmens skanning. Guiden följer aktuell live-balansering."
+      "title": "WoW: Forever Hotfixes - November 10, 2026",
+      "link": "https://news.blizzard.com/en-us/article/24315281/wow-forever-hotfixes-november-10-2026",
+      "date": "2026-11-10",
+      "summary": "Officiell WoW-nyhet från Blizzard."
+    },
+    {
+      "title": "Hotfixes: November 6, 2026",
+      "link": "https://news.blizzard.com/en-us/article/24307310/hotfixes-november-6-2026",
+      "date": "2026-11-06",
+      "summary": "Officiell WoW-nyhet från Blizzard."
     }
   ]
 }

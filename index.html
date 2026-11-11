@@ -839,20 +839,17 @@
             updateSummary(storageAvailable);
         }
 
-        function initApp() {
-            setupTabNavigation();
-            setupSliderEvents();
-            setupSearch();
-            setupNetworkStatus();
-            setupProfessionTracker();
-            renderAll();
-            fetchGitHubPatches();
+        function escapeHTML(value) {
+            return String(value ?? '').replace(/[&<>"']/g, char => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            }[char]));
         }
 
         async function fetchGitHubPatches() {
             const listEl = document.getElementById('live-patch-list');
             const statusEl = document.getElementById('sync-guide-status');
             const updatedEl = document.getElementById('sync-last-updated');
+            if (!listEl) return;
 
             try {
                 const res = await fetch('./warlock_patches.json?v=' + new Date().getTime());
@@ -862,29 +859,41 @@
                 if (statusEl) statusEl.innerText = data.guide_status || "Aktiv";
                 if (updatedEl) updatedEl.innerText = data.last_updated || "Nyligen";
 
-                if (!data.articles || data.articles.length === 0) {
-                    listEl.innerHTML = '<p class="text-xs text-slate-400">Inga nya Warlock/Forever patchnotiser hittades i den senaste skanningen.</p>';
+                const articles = Array.isArray(data.articles) ? data.articles : [];
+                if (articles.length === 0) {
+                    const sourceErrors = Array.isArray(data.source_errors) ? data.source_errors : [];
+                    const message = sourceErrors.length
+                        ? `Skanningsfel: ${sourceErrors.join('; ')}`
+                        : 'Inga relevanta Warlock- eller patchnotiser hittades i den senaste skanningen.';
+                    listEl.innerHTML = `<p class="text-xs text-slate-400">${escapeHTML(message)}</p>`;
                     return;
                 }
 
-                listEl.innerHTML = data.articles.map(art => `
+                listEl.innerHTML = articles.map(art => {
+                    const link = String(art.link || '');
+                    if (!/^https?:\/\//i.test(link)) return '';
+                    return `
                     <div class="p-3.5 bg-slate-900/90 rounded-lg border border-purple-900/40">
                         <div class="flex items-center justify-between mb-1">
-                            <span class="text-[10px] font-mono bg-purple-950 text-purple-300 px-2 py-0.5 rounded">${art.date}</span>
+                            <span class="text-[10px] font-mono bg-purple-950 text-purple-300 px-2 py-0.5 rounded">${escapeHTML(art.date)}</span>
                         </div>
                         <h4 class="text-sm font-bold text-slate-100 hover:text-fel transition">
-                            <a href="${art.link}" target="_blank" rel="noopener">${art.title}</a>
+                            <a href="${escapeHTML(link)}" target="_blank" rel="noopener noreferrer">${escapeHTML(art.title)}</a>
                         </h4>
-                        <p class="text-xs text-slate-400 mt-1">${art.summary}</p>
+                        <p class="text-xs text-slate-400 mt-1">${escapeHTML(art.summary)}</p>
                     </div>
-                `).join('');
+                    `;
+                }).join('');
+                if (!listEl.innerHTML) {
+                    listEl.innerHTML = '<p class="text-xs text-slate-400">Inga giltiga artikellänkar hittades i skanningen.</p>';
+                }
 
             } catch (err) {
                 if (statusEl) statusEl.innerText = "Väntar på skanning";
                 listEl.innerHTML = `
                     <div class="p-3.5 bg-slate-900/90 rounded-lg border border-slate-800 text-xs">
-                        <strong class="text-amber-400 block mb-1">Skannern har inte genererat warlock_patches.json ännu</strong>
-                        <p class="text-slate-400">Gå till GitHub Actions i ditt repository och tryck på <em>Run workflow</em> för att utföra din första automatiska skanning.</p>
+                        <strong class="text-amber-400 block mb-1">Kunde inte hämta scannerdata</strong>
+                        <p class="text-slate-400">Kontrollera anslutningen och försök igen senare. Skanningen körs automatiskt via GitHub Actions.</p>
                     </div>
                 `;
             }
@@ -1269,12 +1278,6 @@
             if (modal) modal.classList.add('hidden');
         }
     async function initApp() {
-            setupTabNavigation();
-            setupSliderEvents();
-            setupSearch();
-            setupNetworkStatus();
-            setupProfessionTracker();
-
             try {
                 // Hämta dynamisk data från warlock_data.json
                 const res = await fetch('./warlock_data.json?v=' + new Date().getTime());
@@ -1303,6 +1306,11 @@
 
         // Starta appen och sätt en timer som uppdaterar alla flikar var 5:e minut
         window.onload = function() {
+            setupTabNavigation();
+            setupSliderEvents();
+            setupSearch();
+            setupNetworkStatus();
+            setupProfessionTracker();
             initApp();
             setInterval(initApp, 300000); 
         };
