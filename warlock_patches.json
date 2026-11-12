@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-11-11 16:26",
+  "last_updated": "2026-11-12 01:32",
   "guide_status": "Synced with Blizzard WoW News",
   "total_updates": 2,
   "source_errors": [],
@@ -12,36 +12,39 @@
   ],
   "articles": [
     {
-      "title": "WoW: Forever Hotfixes - November 10, 2026",
-      "link": "https://news.blizzard.com/en-us/article/24315281/wow-forever-hotfixes-november-10-2026",
-      "date": "2026-11-10",
-      "summary": "15 official Warlock changes from Blizzard.",
+      "title": "WoW: Forever Hotfixes - November 11, 2026",
+      "link": "https://news.blizzard.com/en-us/article/24315281/wow-forever-hotfixes-november-11-2026",
+      "date": "2026-11-11",
+      "summary": "16 official Warlock changes from Blizzard WoW News.",
       "warlock_changes": [
         "Fixed a bug causing the Succubus whip sound to play much too often.",
         "Imp base damage of the first 4 Ranks of Imp's Firebolt increased, and base Imp Health increased by ~15%.",
         "Voidwalker base Health increased by ~15%.",
         "Incubus base Health increased by ~15%.",
         "Succubus base Health increased by ~15%.",
-        "Affliction: Soul Siphon now grants increased effect to Drain Life, Drain Soul, and Wrack by 4/8/12% per Corruption, Siphon Life, and Bane of Agony active on the target, up to 36% (was any Affliction spell).",
+        "Affliction: Soul Siphon now grants increased effect to your Drain Life, Drain Soul, and Wrack spells by 4/8/12% per each of your Corruption, Siphon Life, and Bane of Agony spells active on the target, up to a maximum of 36% (was any Affliction spell).",
         "Affliction: Wrack damage reduced by 30%.",
         "Affliction: Wrack no longer increases the damage of the Warlock's periodic effects on the target.",
-        "Affliction: While channeling Wrack, Siphon Life, Corruption, and Bane of Agony deal periodic damage 100% faster.",
-        "Destruction: Bane of Havoc now correctly incurs a global cooldown.",
-        "Completing Summon Felsteed now grants the appropriate riding skill.",
-        "Incinerate is no longer available to non-Destruction specializations.",
-        "Voidwalker base Health increased by about 40 at all levels.",
-        "Soul Siphon no longer incorrectly causes Wrack to increase its own damage.",
-        "Orc Command no longer causes some Warlock pet abilities to benefit too much."
+        "Affliction: Wrack tears the target apart from within for 6 seconds, inflicting Shadow damage every 1 second. While channeling, your Siphon Life, Corruption, and Bane of Agony effects on the target deal their periodic damage 100% faster.",
+        "Affliction: Developers’ notes: Wrack speeds up how often your periodic effects deal damage, not how long they last. Bane of Agony still lasts its full 24 seconds, but while Wrack is channeled on the target, it deals damage twice as often. Why this change? Besides being unique, interesting, and more viscerally satisfying to see numbers pop up more often as Affliction - it fixes an issue that the previous design of Wrack had. Previously, Wrack increased periodic damage by a percentage, so if you stopped channeling just before a periodic effect dealt damage, that effect gained 0 benefit from the Wrack you just ended. Now Wrack speeds up your periodic effects while channeled, and the time it skips is kept after Wrack's channel ends or is interrupted. For example, if you channel Wrack for 1 second during a 3-second Corruption tick, Corruption advances 2 seconds instead of 1, so its next tick lands 1 second later instead of 2, even if you stopped channeling Wrack.",
+        "Destruction: Bane of Havoc - fixed a bug where this ability was not incurring a global cooldown.",
+        "Completing “Summon Felsteed” will correctly grant the player the appropriate riding skill.",
+        "Developers’ notes: If a player completed the quest before this hotfix, summoning the Felsteed once will grant them the apprentice riding skill, allowing them to ride other mounts if desired.",
+        "Fixed an issue allowing Incinerate to be available to non-Destruction specializations.",
+        "Voidwalker base health increased by about 40 at all levels.",
+        "The Soul Siphon talent no longer incorrectly causes Wrack to increase its own damage."
       ]
     },
     {
       "title": "Hotfixes: November 6, 2026",
       "link": "https://news.blizzard.com/en-us/article/24307310/hotfixes-november-6-2026",
       "date": "2026-11-06",
-      "summary": "Official Warlock changes from Blizzard.",
+      "summary": "4 official Warlock changes from Blizzard WoW News.",
       "warlock_changes": [
-        "Voidwalker base Health increased by about 40 at all levels.",
-        "Soul Siphon no longer incorrectly causes Wrack to increase its own damage."
+        "Affliction: Unstable Affliction damage increased by 20%. Does not affect PvP combat.",
+        "Destruction: Rain of Fire damage increased by 20%.",
+        "Affliction: Fixed an issue where the Cooldown Manager would sometimes not display Summon Darkglare correctly.",
+        "Fixed issues that caused some warlock summons and Diabolic Occuli to sometimes incorrectly target enemies outside of combat. This corrects summons from Affliction's Shadows of Nath'reza, Demonology's Dominion of Argus, as well as Diabolist summons."
       ]
     }
   ]
