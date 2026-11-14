@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-11-13 22:37",
+  "last_updated": "2026-11-14 03:14",
   "guide_status": "Synced with Blizzard WoW News",
   "total_updates": 2,
   "source_errors": [],
@@ -12,11 +12,12 @@
   ],
   "articles": [
     {
-      "title": "WoW: Forever Hotfixes - November 11, 2026",
-      "link": "https://news.blizzard.com/en-us/article/24315281/wow-forever-hotfixes-november-11-2026",
-      "date": "2026-11-11",
-      "summary": "16 official Warlock changes from Blizzard WoW News.",
+      "title": "WoW: Forever Hotfixes - November 13, 2026",
+      "link": "https://news.blizzard.com/en-us/article/24315281/wow-forever-hotfixes-november-13-2026",
+      "date": "2026-11-13",
+      "summary": "17 official Warlock changes from Blizzard WoW News.",
       "warlock_changes": [
+        "Siphon Life Rank 1 can no longer be cast while silenced.",
         "Fixed a bug causing the Succubus whip sound to play much too often.",
         "Imp base damage of the first 4 Ranks of Imp's Firebolt increased, and base Imp Health increased by ~15%.",
         "Voidwalker base Health increased by ~15%.",
