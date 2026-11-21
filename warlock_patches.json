@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-11-20 21:05",
+  "last_updated": "2026-11-21 02:13",
   "guide_status": "Synced with Blizzard WoW News",
   "total_updates": 2,
   "source_errors": [],
@@ -12,11 +12,12 @@
   ],
   "articles": [
     {
-      "title": "WoW: Forever Hotfixes - November 19, 2026",
-      "link": "https://news.blizzard.com/en-us/article/24315281/wow-forever-hotfixes-november-19-2026",
-      "date": "2026-11-19",
-      "summary": "17 official Warlock changes from Blizzard WoW News.",
+      "title": "WoW: Forever Hotfixes - November 20, 2026",
+      "link": "https://news.blizzard.com/en-us/article/24315281/wow-forever-hotfixes-november-20-2026",
+      "date": "2026-11-20",
+      "summary": "18 official Warlock changes from Blizzard WoW News.",
       "warlock_changes": [
+        "Demonology: Fixed a bug where the effects of the Demonic Aegis talent could be snapshotted into your Demon Armor or Demon Skin and then untalented to retain the effects. Demonic Aegis and Demon Skin are removed when your talents are unlearned.",
         "Siphon Life Rank 1 can no longer be cast while silenced.",
         "Fixed a bug causing the Succubus whip sound to play much too often.",
         "Imp base damage of the first 4 Ranks of Imp's Firebolt increased, and base Imp Health increased by ~15%.",
