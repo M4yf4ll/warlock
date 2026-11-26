@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-11-25 15:36",
+  "last_updated": "2026-11-26 00:20",
   "guide_status": "Synced with Blizzard WoW News",
   "total_updates": 2,
   "source_errors": [],
@@ -12,23 +12,13 @@
   ],
   "articles": [
     {
-      "title": "Hotfixes: November 24, 2026",
-      "link": "https://news.blizzard.com/en-us/article/24307310/hotfixes-november-24-2026",
-      "date": "2026-11-24",
-      "summary": "4 official Warlock changes from Blizzard WoW News.",
+      "title": "WoW: Forever Hotfixes - November 25, 2026",
+      "link": "https://news.blizzard.com/en-us/article/24315281/wow-forever-hotfixes-november-25-2026",
+      "date": "2026-11-25",
+      "summary": "21 official Warlock changes from Blizzard WoW News.",
       "warlock_changes": [
-        "Affliction: Unstable Affliction damage increased by 20%. Does not affect PvP combat.",
-        "Destruction: Rain of Fire damage increased by 20%.",
-        "Affliction: Fixed an issue where the Cooldown Manager would sometimes not display Summon Darkglare correctly.",
-        "Fixed issues that caused some warlock summons and Diabolic Occuli to sometimes incorrectly target enemies outside of combat. This corrects summons from Affliction's Shadows of Nath'reza, Demonology's Dominion of Argus, as well as Diabolist summons."
-      ]
-    },
-    {
-      "title": "WoW: Forever Hotfixes - November 23, 2026",
-      "link": "https://news.blizzard.com/en-us/article/24315281/wow-forever-hotfixes-november-23-2026",
-      "date": "2026-11-23",
-      "summary": "19 official Warlock changes from Blizzard WoW News.",
-      "warlock_changes": [
+        "Fixed an issue where pets had 0% critical strike chance on melee basic attacks.",
+        "Fixed an issue where Succubus and Incubus had 5% higher critical strike chance than intended.",
         "Destruction: Fixed an issue where Intensity was not working on Incinerate.",
         "Demonology: Fixed a bug where the effects of the Demonic Aegis talent could be snapshotted into your Demon Armor or Demon Skin and then untalented to retain the effects. Demonic Aegis and Demon Skin are removed when your talents are unlearned.",
         "Siphon Life Rank 1 can no longer be cast while silenced.",
@@ -48,6 +38,18 @@
         "Fixed an issue allowing Incinerate to be available to non-Destruction specializations.",
         "Voidwalker base health increased by about 40 at all levels.",
         "The Soul Siphon talent no longer incorrectly causes Wrack to increase its own damage."
+      ]
+    },
+    {
+      "title": "Hotfixes: November 24, 2026",
+      "link": "https://news.blizzard.com/en-us/article/24307310/hotfixes-november-24-2026",
+      "date": "2026-11-24",
+      "summary": "4 official Warlock changes from Blizzard WoW News.",
+      "warlock_changes": [
+        "Affliction: Unstable Affliction damage increased by 20%. Does not affect PvP combat.",
+        "Destruction: Rain of Fire damage increased by 20%.",
+        "Affliction: Fixed an issue where the Cooldown Manager would sometimes not display Summon Darkglare correctly.",
+        "Fixed issues that caused some warlock summons and Diabolic Occuli to sometimes incorrectly target enemies outside of combat. This corrects summons from Affliction's Shadows of Nath'reza, Demonology's Dominion of Argus, as well as Diabolist summons."
       ]
     }
   ]
